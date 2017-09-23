@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Select One</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <form>
+        <table>
+            <tr>
+                <td>Id</td>
+                <td><input type="number" id="id" name="id"/></td>
+                <td id="err-id"></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="width: 100%;">
+                    <input type="submit" value="Find User" id="find"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+    <div id="ajax-getOne"></div>
+
+</body>
+    <script>
+        $(document).ready(function(){
+            $('#find').click(function(){
+               $.get('http://localhost/jquery-ajax1/back-end/selectOneUser.php',
+                   {
+                     "id": $('#id').val()
+                   }
+                   ,function(responseText,statusCode,xhttp){
+                    if(statusCode === 'success'){
+                      var json = JSON.parse(responseText);
+
+                      if(json.person !== null){
+                          $('#ajax-getOne').text(responseText);
+
+                          console.log(json.person.id);
+                          console.log(json.person.username);
+                      }else{
+                         console.log("Data person tidak ada");
+                         $('#ajax-getOne').text('Data person tidak ada');
+                      }
+
+                    }
+               });
+
+
+               return false;
+            });
+        });
+    </script>
+</html>

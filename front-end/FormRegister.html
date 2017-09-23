@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Form Login</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <form method="POST">
+        <table>
+            <tr>
+                <td>Username</td>
+                <td><input type="text" name="username" id="username" placeholder="Username"/></td>
+                <td id="err-username"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" name="password" id="password" placeholder="Your Password"/></td>
+                <td id="err-password"></td>
+            </tr>
+            <tr>
+                <td colspan="3" style="widows: 100%;"><input type="submit" id="InsertData" value="Login"/></td>
+            </tr>
+        </table>
+    </form>
+
+    <div id="ajax-post"></div>
+
+</body>
+    <script>
+        $(document).ready(function(){
+
+            $clear = function () {
+                $('#err-username').text('');
+                $('#err-password').text('');
+            };
+
+
+
+
+           $('#InsertData').click(function () {
+              var username = $('#username').val();
+              var password = $('#password').val();
+
+              if(username === '' || password === ''){
+                 if(username === ''){
+                   $('#err-username').text('Username masih kosong');
+                 } else{
+                   $('#err-username').text('');
+                 }
+
+                 if(password === ''){
+                   $('#err-password').text('Password masih kosong');
+                 }else{
+                   $('#err-password').text('');
+                 }
+
+                 $('#ajax-post').text('');
+
+              }else{
+                $.post('http://localhost/jquery-ajax1/back-end/insert.php',
+
+                    {
+                        "username":$('#username').val(),
+                        "password":$('#password').val()
+                    }
+
+                ,function(responseText,statusResponse,xhttp){
+                    if(statusResponse === 'success'){
+                       $('#ajax-post').text(responseText);
+                    }else{
+                       console.log(responseText);
+                       console.log(statusResponse);
+                    }
+                });
+                $clear();
+
+              }
+               return false;
+           });
+        });
+    </script>
+</html>

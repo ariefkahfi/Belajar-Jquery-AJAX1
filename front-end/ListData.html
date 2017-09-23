@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>List Data</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <table id="users" border="3" width="25%">
+        <tr>
+            <td style="padding: 5%;" align="center">Id</td>
+            <td style="padding: 5%;" align="center">Nama</td>
+        </tr>
+    </table>
+
+    <div id="ajax-load" style="color: yellow; font-weight: bolder"></div>
+
+</body>
+    <script>
+        $(document).ready(function(){
+
+
+            $.get('http://localhost/jquery-ajax1/back-end/select.php',function(responseText,statusRespose,xhttp){
+                if(statusRespose === 'success'){
+                    console.log(responseText);
+
+                    var json = JSON.parse(responseText);
+
+                    for(var i=0; i<json.person.length; i++){
+                        //console.log(json.person[i].id);
+                        //console.log(json.person[i].username);
+                        var tr = $('<tr></tr>');
+                        var tdId = $('<td></td>').text(json.person[i].id);
+
+                        tdId.attr('align','center');
+
+                        tdId.css({
+                          'fontWeight':'bolder',
+                          'color':'green'
+                        });
+
+                        var tdNama = $('<td></td>').text(json.person[i].username);
+
+                        tdNama.css({
+                           'paddingLeft':'5%',
+                           'fontSize':'27px'
+                        });
+
+                        tr.append(tdId,tdNama);
+
+                        $('#users').append(tr);
+
+                    }
+                }
+            });
+
+            /*$('#ajax-load').load('http://localhost/jquery-ajax1/back-end/select.php',function(responseTxt,statusResponse,xhttp){
+
+                console.log(responseTxt);
+
+                var json = JSON.parse(responseTxt);
+
+                for(var i=0; i<json.person.length; i++){
+                    //console.log(json.person[i].id);
+                    //console.log(json.person[i].username);
+                   var tr = $('<tr></tr>');
+                   var tdId = $('<td></td>').text(json.person[i].id);
+                   var tdNama = $('<td></td>').text(json.person[i].username);
+
+                   tr.append(tdId,tdNama);
+
+                   $('#users').append(tr);
+
+                }
+
+            });*/
+
+        });
+    </script>
+</html>
